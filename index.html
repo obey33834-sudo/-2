@@ -3,29 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VIP 3D PANEL</title>
+<title>VIP ULTRA PANEL</title>
 
 <style>
 body{
   margin:0;
   height:100vh;
+  overflow:hidden;
   display:flex;
   justify-content:center;
   align-items:center;
+  background: radial-gradient(circle at top,#120c00,#000);
   font-family:Arial;
-  background: radial-gradient(circle at top,#1a1400,#000);
-  overflow:hidden;
   color:#ffd700;
 }
 
-/* แสงทองวิ่ง */
+/* particles */
+.particle{
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:#ffd700;
+  border-radius:50%;
+  animation:float 6s linear infinite;
+  opacity:0.5;
+}
+
+@keyframes float{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
+}
+
+/* glow bg beam */
 body::before{
   content:"";
   position:absolute;
   width:200%;
   height:200%;
-  background:linear-gradient(120deg,transparent 40%,rgba(255,215,0,0.12),transparent 60%);
-  animation:shine 5s linear infinite;
+  background:linear-gradient(120deg,transparent 40%,rgba(255,215,0,0.15),transparent 60%);
+  animation:shine 4s linear infinite;
   transform:rotate(25deg);
 }
 
@@ -34,38 +50,63 @@ body::before{
   100%{transform:translateX(50%) rotate(25deg);}
 }
 
-/* 3D card */
+/* SPLASH */
+.splash{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  animation:fadeOut 2.5s forwards;
+  z-index:10;
+}
+
+.splash h1{
+  font-size:28px;
+  text-shadow:0 0 20px #ffd700;
+}
+
+@keyframes fadeOut{
+  0%{opacity:1;}
+  80%{opacity:1;}
+  100%{opacity:0;visibility:hidden;}
+}
+
+/* card */
 .card{
   width:380px;
   padding:20px;
-  border-radius:20px;
-  background:rgba(25,18,0,0.85);
+  border-radius:22px;
+  background:rgba(30,20,0,0.85);
   border:1px solid #ffd700;
-  box-shadow:0 20px 60px rgba(0,0,0,0.8), 0 0 25px #ffd700;
+  box-shadow:0 30px 80px rgba(0,0,0,0.9),0 0 40px #ffd700;
   transform-style:preserve-3d;
-  transition:transform 0.15s ease;
-  z-index:1;
+  transition:0.1s;
+  z-index:2;
 }
 
 /* title */
 .title{
   text-align:center;
-  font-size:22px;
+  font-size:24px;
   font-weight:bold;
-  text-shadow:0 0 10px #ffd700;
+  text-shadow:0 0 15px #ffd700;
 }
 
 .subtitle{
   text-align:center;
   font-size:12px;
   opacity:0.8;
-  margin-bottom:15px;
 }
 
 /* box */
 .box{
-  background:rgba(255,215,0,0.08);
+  margin-top:10px;
   padding:12px;
+  background:rgba(255,215,0,0.08);
   border-radius:12px;
 }
 
@@ -73,24 +114,23 @@ body::before{
 .toggle{
   display:flex;
   justify-content:space-between;
-  align-items:center;
   margin:12px 0;
-  font-size:14px;
 }
 
 .switch{
-  width:45px;
-  height:22px;
-  background:#3a2f00;
+  width:50px;
+  height:24px;
+  background:#2b2000;
   border-radius:20px;
   position:relative;
   cursor:pointer;
-  box-shadow:0 0 6px #ffd700;
+  box-shadow:0 0 10px #ffd700;
+  transition:0.3s;
 }
 
 .circle{
-  width:18px;
-  height:18px;
+  width:20px;
+  height:20px;
   background:#ffd700;
   border-radius:50%;
   position:absolute;
@@ -99,89 +139,90 @@ body::before{
   transition:0.3s;
 }
 
+.switch.active{
+  box-shadow:0 0 25px #ffd700;
+}
+
 .switch.active .circle{
-  left:25px;
-  background:#fff3b0;
+  left:28px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- SPLASH SCREEN -->
+<div class="splash">
+  <h1>VIP PANEL LOADING...</h1>
+</div>
+
 <div class="card" id="card">
 
-  <div class="title">VIP 3D PANEL</div>
-  <div class="subtitle">ULTIMATE UI ✨</div>
+  <div class="title">VIP ULTRA PANEL</div>
+  <div class="subtitle">LEGEND UI SYSTEM</div>
 
   <div class="box">
-
     <div class="toggle">
-      🎯 ล็อกเป้า 90%
+      🎯 MODE A
       <div class="switch" onclick="toggle(this)"><div class="circle"></div></div>
     </div>
 
     <div class="toggle">
-      🧲 ดูดหัว 97%
+      ⚡ MODE B
       <div class="switch" onclick="toggle(this)"><div class="circle"></div></div>
     </div>
 
     <div class="toggle">
-      ⚙️ DPI 2000
+      🔥 MODE C
       <div class="switch" onclick="toggle(this)"><div class="circle"></div></div>
     </div>
-
-    <div class="toggle">
-      🛡️ กันดำ
-      <div class="switch" onclick="toggle(this)"><div class="circle"></div></div>
-    </div>
-
   </div>
+
 </div>
 
 <script>
 
+/* particles */
+for(let i=0;i<40;i++){
+  let p = document.createElement("div");
+  p.className="particle";
+  p.style.left=Math.random()*100+"vw";
+  p.style.animationDuration=(3+Math.random()*5)+"s";
+  document.body.appendChild(p);
+}
+
 /* toggle */
 function toggle(el){
   el.classList.toggle("active");
+  click();
+}
+
+/* sound */
+function click(){
+  const ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const o=ctx.createOscillator();
+  const g=ctx.createGain();
+
+  o.type="sine";
+  o.frequency.value=600;
+  g.gain.value=0.05;
+
+  o.connect(g);
+  g.connect(ctx.destination);
+
+  o.start();
+  o.stop(ctx.currentTime+0.1);
 }
 
 /* 3D tilt */
-const card = document.getElementById("card");
-
+const card=document.getElementById("card");
 document.addEventListener("mousemove",(e)=>{
-  let x = (window.innerWidth/2 - e.pageX)/20;
-  let y = (window.innerHeight/2 - e.pageY)/20;
-  card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-});
-
-/* startup sound */
-function playStartupSound(){
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
-
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-
-  osc.type = "sine";
-  osc.frequency.setValueAtTime(520, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.2);
-
-  gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.2, ctx.currentTime + 0.05);
-  gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.6);
-
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-
-  osc.start();
-  osc.stop(ctx.currentTime + 0.6);
-}
-
-/* play on open */
-window.addEventListener("load", ()=>{
-  playStartupSound();
+  let x=(window.innerWidth/2-e.pageX)/25;
+  let y=(window.innerHeight/2-e.pageY)/25;
+  card.style.transform=`rotateY(${x}deg) rotateX(${y}deg)`;
 });
 
 </script>
 
 </body>
-  </html>
+</html>
