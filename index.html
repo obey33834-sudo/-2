@@ -9,45 +9,23 @@
 body{
   margin:0;
   height:100vh;
+  overflow:hidden;
+  font-family:Arial;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-family:Arial;
   color:#ffd700;
-  overflow:hidden;
-
-  /* 🌑 พื้นหลังหดหู่ */
-  background:
-    radial-gradient(circle at top, rgba(0,0,0,0.2), #000 70%),
-    linear-gradient(180deg,#050505,#000);
+  background: radial-gradient(circle at top,#0b0b0b,#000);
 }
 
-/* หมอกมืด */
+/* light */
 body::before{
   content:"";
   position:absolute;
   width:200%;
   height:200%;
-  background:
-    radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size:3px 3px;
-  opacity:0.2;
-  animation:move 20s linear infinite;
-}
-
-@keyframes move{
-  0%{transform:translateY(0);}
-  100%{transform:translateY(-50px);}
-}
-
-/* light sweep ทองจาง ๆ */
-body::after{
-  content:"";
-  position:absolute;
-  width:200%;
-  height:200%;
-  background:linear-gradient(120deg,transparent 45%,rgba(255,215,0,0.08),transparent 60%);
-  animation:shine 6s linear infinite;
+  background:linear-gradient(120deg,transparent 40%,rgba(255,215,0,0.12),transparent 60%);
+  animation:shine 5s linear infinite;
 }
 
 @keyframes shine{
@@ -55,17 +33,18 @@ body::after{
   100%{transform:translateX(50%);}
 }
 
-/* start screen */
-#start{
+/* START BUTTON */
+#startBtn{
   position:absolute;
-  inset:0;
-  background:rgba(0,0,0,0.95);
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  padding:14px 28px;
   font-size:18px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  color:#000;
+  background:#ffd700;
+  box-shadow:0 0 20px #ffd700;
   z-index:10;
-  color:#ffd700;
 }
 
 /* panel */
@@ -73,20 +52,24 @@ body::after{
   width:380px;
   padding:20px;
   border-radius:18px;
-
   background:rgba(10,10,10,0.75);
-  border:1px solid rgba(255,215,0,0.4);
+  border:1px solid rgba(255,215,0,0.3);
+  box-shadow:0 0 25px rgba(0,0,0,0.8);
 
-  box-shadow:
-    0 0 25px rgba(0,0,0,0.8),
-    0 0 10px rgba(255,215,0,0.2);
+  opacity:0;
+  transform:scale(0.95);
+  transition:0.5s ease;
+}
+
+.card.show{
+  opacity:1;
+  transform:scale(1);
 }
 
 .title{
   text-align:center;
   font-size:22px;
-  font-weight:bold;
-  text-shadow:0 0 8px #ffd700;
+  text-shadow:0 0 10px #ffd700;
 }
 
 .sub{
@@ -102,16 +85,12 @@ body::after{
   border-radius:12px;
 }
 
-/* row */
 .row{
   display:flex;
   justify-content:space-between;
-  align-items:center;
   margin:12px 0;
-  font-size:14px;
 }
 
-/* switch */
 .switch{
   width:52px;
   height:26px;
@@ -119,7 +98,6 @@ body::after{
   border-radius:30px;
   position:relative;
   cursor:pointer;
-  box-shadow:0 0 6px rgba(255,215,0,0.3);
 }
 
 .dot{
@@ -141,12 +119,12 @@ body::after{
 
 <body>
 
-<div id="start" onclick="startApp()">แตะเพื่อเข้า ZAZA PANEL VIP V1</div>
+<button id="startBtn">▶ เริ่มเกม</button>
 
-<div class="card">
+<div class="card" id="card">
 
   <div class="title">ZAZA PANEL VIP V1</div>
-  <div class="sub">SYSTEM UI ✨ BY : โอเบย์</div>
+  <div class="sub">SYSTEM UI ✨</div>
 
   <div class="box">
 
@@ -175,3 +153,43 @@ body::after{
 </div>
 
 <script>
+
+let ctx;
+
+/* START BUTTON */
+document.getElementById("startBtn").onclick = ()=>{
+  document.getElementById("startBtn").style.display="none";
+  document.getElementById("card").classList.add("show");
+
+  ctx = new (window.AudioContext || window.webkitAudioContext)();
+  playSound();
+};
+
+/* iOS style sound */
+function playSound(){
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+
+  o.type="sine";
+  o.frequency.setValueAtTime(520, ctx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(880, ctx.currentTime+0.25);
+
+  g.gain.setValueAtTime(0.25, ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.6);
+
+  o.connect(g);
+  g.connect(ctx.destination);
+
+  o.start();
+  o.stop(ctx.currentTime+0.6);
+}
+
+/* toggle */
+function toggle(el){
+  el.classList.toggle("active");
+}
+
+</script>
+
+</body>
+</html>
