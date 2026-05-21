@@ -3,147 +3,137 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VIP ULTRA PANEL</title>
+<title>ZAZA PANEL VIP V1</title>
 
 <style>
 body{
   margin:0;
   height:100vh;
-  overflow:hidden;
   display:flex;
   justify-content:center;
   align-items:center;
-  background: radial-gradient(circle at top,#120c00,#000);
   font-family:Arial;
   color:#ffd700;
+  overflow:hidden;
+
+  /* 🌑 พื้นหลังหดหู่ */
+  background:
+    radial-gradient(circle at top, rgba(0,0,0,0.2), #000 70%),
+    linear-gradient(180deg,#050505,#000);
 }
 
-/* particles */
-.particle{
-  position:absolute;
-  width:4px;
-  height:4px;
-  background:#ffd700;
-  border-radius:50%;
-  animation:float 6s linear infinite;
-  opacity:0.5;
-}
-
-@keyframes float{
-  from{transform:translateY(100vh);}
-  to{transform:translateY(-10vh);}
-}
-
-/* glow bg beam */
+/* หมอกมืด */
 body::before{
   content:"";
   position:absolute;
   width:200%;
   height:200%;
-  background:linear-gradient(120deg,transparent 40%,rgba(255,215,0,0.15),transparent 60%);
-  animation:shine 4s linear infinite;
-  transform:rotate(25deg);
+  background:
+    radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size:3px 3px;
+  opacity:0.2;
+  animation:move 20s linear infinite;
+}
+
+@keyframes move{
+  0%{transform:translateY(0);}
+  100%{transform:translateY(-50px);}
+}
+
+/* light sweep ทองจาง ๆ */
+body::after{
+  content:"";
+  position:absolute;
+  width:200%;
+  height:200%;
+  background:linear-gradient(120deg,transparent 45%,rgba(255,215,0,0.08),transparent 60%);
+  animation:shine 6s linear infinite;
 }
 
 @keyframes shine{
-  0%{transform:translateX(-50%) rotate(25deg);}
-  100%{transform:translateX(50%) rotate(25deg);}
+  0%{transform:translateX(-50%);}
+  100%{transform:translateX(50%);}
 }
 
-/* SPLASH */
-.splash{
+/* start screen */
+#start{
   position:absolute;
-  width:100%;
-  height:100%;
-  background:#000;
+  inset:0;
+  background:rgba(0,0,0,0.95);
   display:flex;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
-  animation:fadeOut 2.5s forwards;
+  font-size:18px;
   z-index:10;
+  color:#ffd700;
 }
 
-.splash h1{
-  font-size:28px;
-  text-shadow:0 0 20px #ffd700;
-}
-
-@keyframes fadeOut{
-  0%{opacity:1;}
-  80%{opacity:1;}
-  100%{opacity:0;visibility:hidden;}
-}
-
-/* card */
+/* panel */
 .card{
   width:380px;
   padding:20px;
-  border-radius:22px;
-  background:rgba(30,20,0,0.85);
-  border:1px solid #ffd700;
-  box-shadow:0 30px 80px rgba(0,0,0,0.9),0 0 40px #ffd700;
-  transform-style:preserve-3d;
-  transition:0.1s;
-  z-index:2;
+  border-radius:18px;
+
+  background:rgba(10,10,10,0.75);
+  border:1px solid rgba(255,215,0,0.4);
+
+  box-shadow:
+    0 0 25px rgba(0,0,0,0.8),
+    0 0 10px rgba(255,215,0,0.2);
 }
 
-/* title */
 .title{
   text-align:center;
-  font-size:24px;
+  font-size:22px;
   font-weight:bold;
-  text-shadow:0 0 15px #ffd700;
+  text-shadow:0 0 8px #ffd700;
 }
 
-.subtitle{
+.sub{
   text-align:center;
   font-size:12px;
-  opacity:0.8;
+  opacity:0.6;
+  margin-bottom:15px;
 }
 
-/* box */
 .box{
-  margin-top:10px;
+  background:rgba(255,215,0,0.05);
   padding:12px;
-  background:rgba(255,215,0,0.08);
   border-radius:12px;
 }
 
-/* toggle */
-.toggle{
+/* row */
+.row{
   display:flex;
   justify-content:space-between;
+  align-items:center;
   margin:12px 0;
+  font-size:14px;
 }
 
+/* switch */
 .switch{
-  width:50px;
-  height:24px;
-  background:#2b2000;
-  border-radius:20px;
+  width:52px;
+  height:26px;
+  background:#1a1a1a;
+  border-radius:30px;
   position:relative;
   cursor:pointer;
-  box-shadow:0 0 10px #ffd700;
-  transition:0.3s;
+  box-shadow:0 0 6px rgba(255,215,0,0.3);
 }
 
-.circle{
-  width:20px;
-  height:20px;
+.dot{
+  width:22px;
+  height:22px;
   background:#ffd700;
   border-radius:50%;
   position:absolute;
   top:2px;
   left:2px;
-  transition:0.3s;
+  transition:0.25s;
 }
 
-.switch.active{
-  box-shadow:0 0 25px #ffd700;
-}
-
-.switch.active .circle{
+.switch.active .dot{
   left:28px;
 }
 </style>
@@ -151,113 +141,50 @@ body::before{
 
 <body>
 
-<!-- SPLASH SCREEN -->
-<div class="splash">
-  <h1>VIP PANEL LOADING...</h1>
-</div>
+<div id="start" onclick="startApp()">แตะเพื่อเข้า ZAZA PANEL VIP V1</div>
 
-<div class="card" id="card">
+<div class="card">
 
-  <div class="title">VIP ULTRA PANEL</div>
-  <div class="subtitle">LEGEND UI SYSTEM</div>
+  <div class="title">ZAZA PANEL VIP V1</div>
+  <div class="sub">SYSTEM UI ✨ BY : โอเบย์</div>
 
   <div class="box">
-    <div class="toggle">
-      🎯 MODE A
-      <div class="switch" onclick="toggle(this)"><div class="circle"></div></div>
+
+    <div class="row">
+      🎯 ล็อกเป้า 90%
+      <div class="switch" onclick="toggle(this)"><div class="dot"></div></div>
     </div>
 
-    <div class="toggle">
-      ⚡ MODE B
-      <div class="switch" onclick="toggle(this)"><div class="circle"></div></div>
+    <div class="row">
+      🧲 ดูดหัว 97%
+      <div class="switch" onclick="toggle(this)"><div class="dot"></div></div>
     </div>
 
-    <div class="toggle">
-      🔥 MODE C
-      <div class="switch" onclick="toggle(this)"><div class="circle"></div></div>
+    <div class="row">
+      ⚙️ DPI 2000
+      <div class="switch" onclick="toggle(this)"><div class="dot"></div></div>
     </div>
+
+    <div class="row">
+      🛡️ กันดำ
+      <div class="switch" onclick="toggle(this)"><div class="dot"></div></div>
+    </div>
+
   </div>
 
 </div>
 
 <script>
 
-/* particles */
-for(let i=0;i<40;i++){
-  let p = document.createElement("div");
-  p.className="particle";
-  p.style.left=Math.random()*100+"vw";
-  p.style.animationDuration=(3+Math.random()*5)+"s";
-  document.body.appendChild(p);
+function startApp(){
+  document.getElementById("start").style.display="none";
 }
 
-/* toggle */
 function toggle(el){
   el.classList.toggle("active");
-  click();
 }
-
-/* sound */
-function click(){
-  const ctx=new (window.AudioContext||window.webkitAudioContext)();
-  const o=ctx.createOscillator();
-  const g=ctx.createGain();
-
-  o.type="sine";
-  o.frequency.value=600;
-  g.gain.value=0.05;
-
-  o.connect(g);
-  g.connect(ctx.destination);
-
-  o.start();
-  o.stop(ctx.currentTime+0.1);
-}
-
-/* 3D tilt */
-const card=document.getElementById("card");
-document.addEventListener("mousemove",(e)=>{
-  let x=(window.innerWidth/2-e.pageX)/25;
-  let y=(window.innerHeight/2-e.pageY)/25;
-  card.style.transform=`rotateY(${x}deg) rotateX(${y}deg)`;
-});
 
 </script>
 
 </body>
 </html>
-<div id="start" style="
-position:absolute;inset:0;
-display:flex;justify-content:center;align-items:center;
-background:black;color:#ffd700;
-font-size:20px;
-z-index:999;
-">
-แตะเพื่อเข้า VIP PANEL
-</div>
-let ctx;
-
-document.getElementById("start").addEventListener("click",()=>{
-  document.getElementById("start").style.display="none";
-
-  ctx = new (window.AudioContext || window.webkitAudioContext)();
-  playSound();
-});
-
-function playSound(){
-  const o = ctx.createOscillator();
-  const g = ctx.createGain();
-
-  o.type="sine";
-  o.frequency.setValueAtTime(400, ctx.currentTime);
-  o.frequency.exponentialRampToValueAtTime(900, ctx.currentTime+0.3);
-
-  g.gain.setValueAtTime(0.2, ctx.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.5);
-
-  o.connect(g);
-  g.connect(ctx.destination);
-
-  o.start();
-  o.stop(ctx.currentTime+0.5);
-}
