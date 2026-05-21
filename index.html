@@ -15,10 +15,13 @@ body{
   justify-content:center;
   align-items:center;
   color:#ffd700;
-  background: radial-gradient(circle at top,#0b0b0b,#000);
+
+  /* 🌑 ดาร์กหดหู่ */
+  background:
+    radial-gradient(circle at top,#0b0b0b,#000);
 }
 
-/* light */
+/* ✨ แสงทองวิ่ง */
 body::before{
   content:"";
   position:absolute;
@@ -33,42 +36,23 @@ body::before{
   100%{transform:translateX(50%);}
 }
 
-/* START BUTTON */
-#startBtn{
-  position:absolute;
-  padding:14px 28px;
-  font-size:18px;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  color:#000;
-  background:#ffd700;
-  box-shadow:0 0 20px #ffd700;
-  z-index:10;
-}
-
-/* panel */
+/* card */
 .card{
   width:380px;
   padding:20px;
   border-radius:18px;
+
   background:rgba(10,10,10,0.75);
   border:1px solid rgba(255,215,0,0.3);
+
   box-shadow:0 0 25px rgba(0,0,0,0.8);
-
-  opacity:0;
-  transform:scale(0.95);
-  transition:0.5s ease;
-}
-
-.card.show{
-  opacity:1;
-  transform:scale(1);
+  z-index:2;
 }
 
 .title{
   text-align:center;
   font-size:22px;
+  font-weight:bold;
   text-shadow:0 0 10px #ffd700;
 }
 
@@ -85,12 +69,16 @@ body::before{
   border-radius:12px;
 }
 
+/* row */
 .row{
   display:flex;
   justify-content:space-between;
+  align-items:center;
   margin:12px 0;
+  font-size:14px;
 }
 
+/* switch */
 .switch{
   width:52px;
   height:26px;
@@ -98,6 +86,7 @@ body::before{
   border-radius:30px;
   position:relative;
   cursor:pointer;
+  box-shadow:0 0 8px rgba(255,215,0,0.25);
 }
 
 .dot{
@@ -108,7 +97,7 @@ body::before{
   position:absolute;
   top:2px;
   left:2px;
-  transition:0.25s;
+  transition:0.2s;
 }
 
 .switch.active .dot{
@@ -119,12 +108,10 @@ body::before{
 
 <body>
 
-<button id="startBtn">▶ เริ่มเกม</button>
-
-<div class="card" id="card">
+<div class="card">
 
   <div class="title">ZAZA PANEL VIP V1</div>
-  <div class="sub">SYSTEM UI ✨</div>
+  <div class="sub">SYSTEM UI ✨ BY : โอเบย์</div>
 
   <div class="box">
 
@@ -156,37 +143,34 @@ body::before{
 
 let ctx;
 
-/* START BUTTON */
-document.getElementById("startBtn").onclick = ()=>{
-  document.getElementById("startBtn").style.display="none";
-  document.getElementById("card").classList.add("show");
+/* unlock audio */
+document.addEventListener("click", ()=>{
+  if(!ctx){
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+});
 
-  ctx = new (window.AudioContext || window.webkitAudioContext)();
-  playSound();
-};
+/* toggle + keyboard click sound */
+function toggle(el){
+  el.classList.toggle("active");
 
-/* iOS style sound */
-function playSound(){
+  if(!ctx) return;
+
   const o = ctx.createOscillator();
   const g = ctx.createGain();
 
-  o.type="sine";
-  o.frequency.setValueAtTime(520, ctx.currentTime);
-  o.frequency.exponentialRampToValueAtTime(880, ctx.currentTime+0.25);
+  o.type = "square";
+  o.frequency.setValueAtTime(1200, ctx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.05);
 
-  g.gain.setValueAtTime(0.25, ctx.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.6);
+  g.gain.setValueAtTime(0.08, ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.06);
 
   o.connect(g);
   g.connect(ctx.destination);
 
   o.start();
-  o.stop(ctx.currentTime+0.6);
-}
-
-/* toggle */
-function toggle(el){
-  el.classList.toggle("active");
+  o.stop(ctx.currentTime + 0.06);
 }
 
 </script>
