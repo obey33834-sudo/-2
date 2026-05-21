@@ -9,12 +9,12 @@
 body{
   margin:0;
   height:100vh;
-  overflow:hidden;
-  font-family:Arial;
   display:flex;
   justify-content:center;
   align-items:center;
+  font-family:Arial;
   color:#ffd700;
+  overflow:hidden;
 
   /* 🌑 ดาร์กหดหู่ */
   background:
@@ -27,8 +27,8 @@ body::before{
   position:absolute;
   width:200%;
   height:200%;
-  background:linear-gradient(120deg,transparent 40%,rgba(255,215,0,0.12),transparent 60%);
-  animation:shine 5s linear infinite;
+  background:linear-gradient(120deg,transparent 40%,rgba(255,215,0,0.10),transparent 60%);
+  animation:shine 6s linear infinite;
 }
 
 @keyframes shine{
@@ -36,17 +36,18 @@ body::before{
   100%{transform:translateX(50%);}
 }
 
-/* card */
+/* panel */
 .card{
   width:380px;
   padding:20px;
   border-radius:18px;
-
-  background:rgba(10,10,10,0.75);
-  border:1px solid rgba(255,215,0,0.3);
-
+  background:rgba(10,10,10,0.78);
+  border:1px solid rgba(255,215,0,0.25);
   box-shadow:0 0 25px rgba(0,0,0,0.8);
-  z-index:2;
+
+  /* ✨ เปิดมาแสดงเลย */
+  opacity:1;
+  transform:translateY(0);
 }
 
 .title{
@@ -78,29 +79,25 @@ body::before{
   font-size:14px;
 }
 
-/* switch */
+/* fake switch (โชว์อย่างเดียว) */
 .switch{
   width:52px;
   height:26px;
   background:#1a1a1a;
   border-radius:30px;
   position:relative;
-  cursor:pointer;
-  box-shadow:0 0 8px rgba(255,215,0,0.25);
+  box-shadow:0 0 8px rgba(255,215,0,0.2);
 }
 
-.dot{
+/* always ON look */
+.switch::after{
+  content:"";
   width:22px;
   height:22px;
   background:#ffd700;
   border-radius:50%;
   position:absolute;
   top:2px;
-  left:2px;
-  transition:0.2s;
-}
-
-.switch.active .dot{
   left:28px;
 }
 </style>
@@ -117,63 +114,27 @@ body::before{
 
     <div class="row">
       🎯 ล็อกเป้า 90%
-      <div class="switch" onclick="toggle(this)"><div class="dot"></div></div>
+      <div class="switch"></div>
     </div>
 
     <div class="row">
       🧲 ดูดหัว 97%
-      <div class="switch" onclick="toggle(this)"><div class="dot"></div></div>
+      <div class="switch"></div>
     </div>
 
     <div class="row">
       ⚙️ DPI 2000
-      <div class="switch" onclick="toggle(this)"><div class="dot"></div></div>
+      <div class="switch"></div>
     </div>
 
     <div class="row">
       🛡️ กันดำ
-      <div class="switch" onclick="toggle(this)"><div class="dot"></div></div>
+      <div class="switch"></div>
     </div>
 
   </div>
 
 </div>
-
-<script>
-
-let ctx;
-
-/* unlock audio */
-document.addEventListener("click", ()=>{
-  if(!ctx){
-    ctx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-});
-
-/* toggle + keyboard click sound */
-function toggle(el){
-  el.classList.toggle("active");
-
-  if(!ctx) return;
-
-  const o = ctx.createOscillator();
-  const g = ctx.createGain();
-
-  o.type = "square";
-  o.frequency.setValueAtTime(1200, ctx.currentTime);
-  o.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.05);
-
-  g.gain.setValueAtTime(0.08, ctx.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.06);
-
-  o.connect(g);
-  g.connect(ctx.destination);
-
-  o.start();
-  o.stop(ctx.currentTime + 0.06);
-}
-
-</script>
 
 </body>
 </html>
