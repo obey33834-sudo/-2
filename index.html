@@ -13,15 +13,12 @@ body{
   justify-content:center;
   align-items:center;
   font-family:Arial;
+  background: radial-gradient(circle at top,#0b0b0b,#000);
   color:#ffd700;
   overflow:hidden;
-
-  /* 🌑 ดาร์กหดหู่ */
-  background:
-    radial-gradient(circle at top,#0b0b0b,#000);
 }
 
-/* ✨ แสงทองวิ่ง */
+/* light */
 body::before{
   content:"";
   position:absolute;
@@ -36,7 +33,7 @@ body::before{
   100%{transform:translateX(50%);}
 }
 
-/* panel */
+/* card */
 .card{
   width:380px;
   padding:20px;
@@ -44,16 +41,11 @@ body::before{
   background:rgba(10,10,10,0.78);
   border:1px solid rgba(255,215,0,0.25);
   box-shadow:0 0 25px rgba(0,0,0,0.8);
-
-  /* ✨ เปิดมาแสดงเลย */
-  opacity:1;
-  transform:translateY(0);
 }
 
 .title{
   text-align:center;
   font-size:22px;
-  font-weight:bold;
   text-shadow:0 0 10px #ffd700;
 }
 
@@ -79,26 +71,32 @@ body::before{
   font-size:14px;
 }
 
-/* fake switch (โชว์อย่างเดียว) */
-.switch{
-  width:52px;
-  height:26px;
-  background:#1a1a1a;
-  border-radius:30px;
-  position:relative;
+/* checkbox style */
+.check{
+  width:22px;
+  height:22px;
+  border-radius:6px;
+  border:2px solid #ffd700;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
   box-shadow:0 0 8px rgba(255,215,0,0.2);
 }
 
-/* always ON look */
-.switch::after{
-  content:"";
-  width:22px;
-  height:22px;
+.check.active{
   background:#ffd700;
-  border-radius:50%;
-  position:absolute;
-  top:2px;
-  left:28px;
+  color:#000;
+}
+
+.check::after{
+  content:"✔";
+  font-size:14px;
+  display:none;
+}
+
+.check.active::after{
+  display:block;
 }
 </style>
 </head>
@@ -114,27 +112,33 @@ body::before{
 
     <div class="row">
       🎯 ล็อกเป้า 90%
-      <div class="switch"></div>
+      <div class="check" onclick="toggle(this)"></div>
     </div>
 
     <div class="row">
       🧲 ดูดหัว 97%
-      <div class="switch"></div>
+      <div class="check" onclick="toggle(this)"></div>
     </div>
 
     <div class="row">
       ⚙️ DPI 2000
-      <div class="switch"></div>
+      <div class="check" onclick="toggle(this)"></div>
     </div>
 
     <div class="row">
       🛡️ กันดำ
-      <div class="switch"></div>
+      <div class="check" onclick="toggle(this)"></div>
     </div>
 
   </div>
 
 </div>
+
+<script>
+function toggle(el){
+  el.classList.toggle("active");
+}
+</script>
 
 </body>
 </html>
